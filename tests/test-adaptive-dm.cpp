@@ -122,7 +122,7 @@ int main() {
     state.profit_depth[4].samples = 3;
     state.profit_baseline.samples = 2;
     state.profit_has_key = true;
-    state.profit_key = { 8, 0, 1, 1024, 0.0f, 0.0f };
+    state.profit_key = { 8, 0, 1, 1024, 0, 0.0f, 0.0f };
     state.profit_pending = true;
     state.profit_last_recommended_n = 4;
     state.profit_consecutive_below_profit = 2;
@@ -237,7 +237,7 @@ int main() {
     assert(state.profit_depth[4].samples == 1);
     assert(state.profit_pos_accept_ewma[0] > 0.0f);
 
-    state.reset_profit_if_config_changed(state.dm_profit_min_samples = 1, (common_params_speculative){});
+    state.dm_profit_min_samples = 1;
     // actually need a proper spec struct; let's use the simpler check
     common_params_speculative spec;
     spec.n_max = 8;
@@ -247,14 +247,14 @@ int main() {
     spec.sample_temp = 0.0f;
     spec.p_min = 0.0f;
     state.observe_profit_timing(2, 10.0f, 20.0f, 5.0f, 35.0f);
-    state.reset_profit_if_config_changed(spec, 8);
+    state.reset_profit_if_config_changed(spec, 8, 0);
     assert(state.profit_has_key);
     assert(state.profit_depth[2].samples == 0);
     state.observe_profit_timing(2, 10.0f, 20.0f, 5.0f, 35.0f);
-    state.reset_profit_if_config_changed(spec, 8);
+    state.reset_profit_if_config_changed(spec, 8, 0);
     assert(state.profit_depth[2].samples == 1);
     spec.dflash_cross_ctx = 2048;
-    state.reset_profit_if_config_changed(spec, 8);
+    state.reset_profit_if_config_changed(spec, 8, 0);
     assert(state.profit_depth[2].samples == 0);
 
     // test cross-depth estimation

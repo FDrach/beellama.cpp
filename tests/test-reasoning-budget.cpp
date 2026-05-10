@@ -8,6 +8,7 @@
 #undef NDEBUG
 #endif
 
+#include <climits>
 #include <cmath>
 #include <cstddef>
 #include <cstdio>
